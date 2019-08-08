@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title></title>
+     <style>
+         form{
+             direction:ltr;
+         }
+         .question{
+             padding:20px;
+             width:500px;
+             height:80px;
+             color:rgb(79, 176, 174);
+             font-size:20px;
+             border-radius:0.5em;
+             border:solid 1px rgb(79, 176, 174);
+             background-color:rgba(79, 176, 174, 0.1);
+             margin:15px;
+         }
+         .generateBtn{
+             padding:10px;
+             width:100px;
+             color:white;
+             font-size:25px;
+             text-align: center;
+             background-color:rgb(79, 176, 174);
+             margin:auto;
+         }
+         .generateBtn:active{
+             background-color:rgba(79, 176, 174, 0.5);
+         }
+         .line{
+             width:100%;
+             border:double 10px rgb(79, 176, 174);
+             margin:30px 0 30px 0;
+         }
+          h2{
+          color:rgb(79, 176, 174);
+          margin-bottom:10px;
+          }
+          .wrapper{
+              display:flex;
+              justify-content:space-between;
+         
+          }
+          .classText{
+             color:rgb(79, 176, 174);
+             font-size:20px;
+             display:none;
+          }
+          .box{
+             
+              flex-shrink:0;
+              margin-bottom:30px;
+              background-color:red;
+              height:40px;
+              margin-left:2px;
+          }
+          .emptyBox{
+              height:0 !important;
+          }
+          .wrapQues{
+              display:flex;
+              justify-content:space-around;
+              flex-wrap:wrap;
+
+          }
+          .center{
+                  margin: 0 auto;
+                  margin-top: 15px;
+                  display:block;
+                  width:30px;
+          }
+          .wrapperInput{
+              width:30%;
+              margin:auto;
+          }
+          .input{
+              width:30px;
+              margin-top:20px;
+          }
+          .cssTitle{
+              display:none;
+          }
+     </style>
+</head>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+   <script>
+     
+       $(document).ready(function () {
+           $("#generateBtn").click(function () {
+               generateBox();
+               $(".cssTitle").css('display', 'block');
+               $(".classText").css('display', 'block');
+           });
+       });
+   
+       function generateBox() {
+           var bgColor = $('#backgroundColor').val();
+           var height = $('#heightBox').val();
+           var width = $('#widthBox').val();
+           var minMarginBoxes = $('#minMarginBoxes').val();
+           var spaceRows = $('#marginRows').val();
+           $(".box").css("background-color", bgColor);
+           $(".box").css("height", height + "px");
+           $(".box").css("flex-basis", width + "px");
+           $(".box").css("margin-left", minMarginBoxes + "px");
+           $(".box").css("margin-bottom", spaceRows + "px");
+           rowsOrShrinkOrScroll();
+           generatewrapperClass();
+           generateBoxClass();
+       }
+
+       function generateBoxClass() {
+           var str = "background-color:" + $(".box").css("background-color") + ";<br/>" +
+                     "height:" + $(".box").css("height") + ";<br/>" +
+                     "flex-basis:" + $(".box").css("flex-basis") + ";<br/>" +
+                     "margin-left:" + $(".box").css("margin-left") + ";<br/>" +
+                     "margin-bottom:" + $(".box").css("margin-bottom") + ";<br/>";
+
+           $("#boxClass").html(str);
+       }
+   
+       function generatewrapperClass() {
+           var str = "flex-wrap:" + $(".wrapper").css("flex-wrap")+";<br/>"+
+                      "display:flex;<br/>" +
+                      "justify-content:space-between;";
+           $("#wrapperClass").html(str);
+        
+       }
+
+       function rowsOrShrinkOrScroll() {
+           var shrinkOrScroll = $('input[name=RowsOrShrink]:checked').val();
+           console.log(shrinkOrScroll);
+           switch (shrinkOrScroll) {
+               case "0":
+                   $(".wrapper").css("flex-wrap", "wrap");
+                   break;
+               case "1":
+                   $(".wrapper").css("flex-wrap", "nowrap");
+                   break;
+               default:
+           }
+       }
+    </script>
+   
+<body>
+ <form id="form1" runat="server" dir="rtl">
+  <div class="wrapQues">
+   <div class="question">
+    <div> What is the height of each box?</div>
+     <div class="wrapperInput"><input class="input" id="heightBox"/>&nbsp;<span>px</span></div>  
+  </div>
+  <div class="question">
+    <div> What is the background color of each box?</div>
+       <div class="wrapperInput"> <input class="input" id="backgroundColor" type="color"/></div>
+    </div>
+    <div class="question">
+    <div>What is the width of each box?  </div>
+          <div class="wrapperInput"><input class="input" id="widthBox"/>&nbsp;<span>px</span></div> 
+    </div>
+  <div class="question">
+    <div>What is the space between the boxes? </div>
+        <div class="wrapperInput"><input class="input" id="minMarginBoxes"/>&nbsp;<span>px</span></div> 
+    </div>
+       <div class="question">
+    <div>What is the space between the rows? </div>
+              <div class="wrapperInput"><input class="input" id="marginRows"/>&nbsp;<span>px</span></div> 
+    </div>  
+  <div class="question">
+    <div> Please choose if there is not enough space for all boxes:</div>
+       <input type="radio" name="RowsOrShrink" value="0"/><span>Break to rows</span>
+       <input type="radio" name="RowsOrShrink" value="1"/><span>Add scroll bar</span>
+    </div>
+ </div> 
+        <div id="generateBtn" class="generateBtn">
+            generate
+        </div>
+       
+ <div class="line"></div>
+    </form>
+    <div class="wrapper">
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     <div class="box emptyBox"></div>
+     </div>
+    <h2 class="cssTitle">The wrapper of the boxes css class  is:</h2>
+    <div class="classText" id="wrapperClass"></div>
+     <h2 class="cssTitle">The box css class is:</h2>
+    <div  class="classText" id="boxClass"></div>
+    <h2 class="cssTitle">Note: </h2>
+      <div class="classText"> Inoreder the last row stand straight add empty boxes in the end of the list<br />
+          of boxes with class box and add style="height:0 !important".<br />
+          The amount of empty boxes should be the most boxes that are possible to be in one row.
+      </div> 
+   
+</body>
+</html>
+ 
